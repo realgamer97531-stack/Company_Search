@@ -38,15 +38,15 @@ const upload = multer({ storage: storage });
 // ADD LINK
 // =====================
 
-router.post('/add', verifyToken, thumbnail_url, (req, res) => {
+router.post('/add', verifyToken, (req, res) => {
     // Authorization check
     if (req.user.role !== 'admin' && req.user.role !== 'editor') {
         return res.status(403).json({ message: 'Access Denied' });
     }
 
-    const { title, description, url, type, tags } = req.body;
-    const thumbnail = req.file ? `/uploads/${req.file.filename}` : '';
+    const { title, description, url, type, tags, thumbnail_url } = req.body;
 
+    const thumbnail = req.file ? `/uploads/${req.file.filename}` : (thumbnail_url || '');
     const sql = `
         INSERT INTO links (title, description, url, type, thumbnail, tags, created_by)
         VALUES (?, ?, ?, ?, ?, ?, ?)

@@ -4,8 +4,6 @@ localStorage.getItem('token');
 const role =
 localStorage.getItem('role');
 
-
-// حماية الصفحة
 if(
     role !== 'admin' &&
     role !== 'editor'
@@ -13,14 +11,12 @@ if(
 
     alert('Access Denied');
 
-    window.location.href = '/';
+    window.location.href='/';
 
 }
 
-
 const form =
 document.getElementById('linkForm');
-
 
 form.addEventListener(
 'submit',
@@ -44,10 +40,10 @@ async function(e){
     'url'
     ).value;
 
-    const thumbnail =
+    const thumbnail_url =
     document.getElementById(
     'thumbnail'
-    ).files[0];
+    ).value;
 
     const type =
     document.getElementById(
@@ -59,43 +55,8 @@ async function(e){
     'tags'
     ).value;
 
-
-    // FORM DATA
-    const formData =
-    new FormData();
-
-    formData.append(
-    'title',
-    title
-    );
-
-    formData.append(
-    'description',
-    description
-    );
-
-    formData.append(
-    'url',
-    url
-    );
-
-    formData.append(
-    'type',
-    type
-    );
-
-    formData.append(
-    'tags',
-    tags
-    );
-
-    formData.append(
-    'thumbnail',
-    thumbnail
-    );
-
-
-    const response = await fetch(
+    const response =
+    await fetch(
 
     'http://localhost:3000/api/links/add',
 
@@ -104,10 +65,25 @@ async function(e){
         method:'POST',
 
         headers:{
-            Authorization:token
+
+            'Content-Type':
+            'application/json',
+
+            Authorization:
+            token
+
         },
 
-        body:formData
+        body:JSON.stringify({
+
+            title,
+            description,
+            url,
+            thumbnail_url,
+            type,
+            tags
+
+        })
 
     });
 
@@ -116,6 +92,6 @@ async function(e){
 
     alert(data.message);
 
-    window.location.href = '/';
+    window.location.href='/';
 
 });

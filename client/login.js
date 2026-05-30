@@ -11,63 +11,77 @@ async function(e){
     const username =
     document.getElementById(
     'username'
-    ).value;
+    ).value.trim();
 
     const password =
     document.getElementById(
     'password'
-    ).value;
+    ).value.trim();
 
+    // Validation
+    if(!username || !password){
+        alert('Please enter username and password');
+        return;
+    }
 
-    const response = await fetch(
+    try{
+        const response = await fetch(
 
-    'https://company-search-production-74f6.up.railway.app/api/auth/login',
+        'https://company-search-production-74f6.up.railway.app/api/auth/login',
 
-    {
+        {
 
-        method:'POST',
+            method:'POST',
 
-        headers:{
-            'Content-Type':'application/json'
-        },
+            headers:{
+                'Content-Type':'application/json'
+            },
 
-        body:JSON.stringify({
+            body:JSON.stringify({
 
-            username,
-            password
+                username,
+                password
 
-        })
+            })
 
-    });
+        });
 
-    const data =
-    await response.json();
+        const data =
+        await response.json();
 
-    if(data.token){
+        if(!response.ok){
+            alert(data.message || 'Login failed');
+            return;
+        }
 
-        // SAVE TOKEN
-        localStorage.setItem(
-            'token',
-            data.token
-        );
+        if(data.token){
 
-        localStorage.setItem(
-            'role',
-            data.role
-        );
+            // SAVE TOKEN
+            localStorage.setItem(
+                'token',
+                data.token
+            );
 
-        localStorage.setItem(
-            'username',
-            data.username
-        );
+            localStorage.setItem(
+                'role',
+                data.role
+            );
 
-        window.location.href =
-        '/';
+            localStorage.setItem(
+                'username',
+                data.username
+            );
 
-    }else{
+            window.location.href =
+            '/';
 
-        alert(data.message);
+        }else{
 
+            alert(data.message || 'Login failed');
+
+        }
+    }catch(error){
+        alert('Connection error: ' + error.message);
     }
 
 });

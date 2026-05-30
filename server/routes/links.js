@@ -46,18 +46,31 @@ router.post('/add', verifyToken, (req, res) => {
 
     const { title, description, url, type, tags, thumbnail_url } = req.body;
 
+    // Validation
+    if(!title || !url){
+        return res.status(400).json({message:'Title and URL are required'});
+    }
+
+    if(title.length < 3){
+        return res.status(400).json({message:'Title must be at least 3 characters'});
+    }
+
+    if(url.length < 5){
+        return res.status(400).json({message:'Valid URL required'});
+    }
+
     const thumbnail = req.file ? `/uploads/${req.file.filename}` : (thumbnail_url || '');
     const sql = `
         INSERT INTO links (title, description, url, type, thumbnail, tags, created_by)
         VALUES (?, ?, ?, ?, ?, ?, ?)
     `;
 
-    db.query(sql, [title, description, url, type, thumbnail, tags, req.user.id], (err, result) => {
+    db.query(sql, [title, description || '', url, type || 'General', thumbnail, tags || '', req.user.id], (err, result) => {
         if (err) {
-            return res.status(500).json(err);
+            return res.status(500).json({message:'Database error',error:err.message});
         }
         addLog(req.user.id, 'ADD_LINK', result.insertId, `Added link: ${title}`);
-        res.json({ message: 'Link Added' });
+        res.json({ message: 'Link Added Successfully' });
     });
 });
 
@@ -78,13 +91,13 @@ JOIN users
 
 ON links.created_by = users.id
 
-ORDER BY created_at DESC`;
+ORDER BY links.created_at DESC`;
 
     db.query(sql, (err, result) => {
         if (err) {
-            return res.status(500).json(err);
+            return res.status(500).json({message:'Database error',error:err.message});
         }
-        res.json(result);
+        res.json(result || []);
     });
 });
 
@@ -95,6 +108,11 @@ ORDER BY created_at DESC`;
 
 router.get('/search/:text', verifyToken, (req, res) => {
     const text = req.params.text;
+    
+    if(!text || text.trim().length === 0){
+        return res.status(400).json({message:'Search text required'});
+    }
+
     const searchValue = `%${text}%`;
 
     const sql = `
@@ -109,14 +127,14 @@ JOIN users
 
 ON links.created_by = users.id
         WHERE title LIKE ? OR description LIKE ? OR tags LIKE ? OR type LIKE ?
-        ORDER BY created_at DESC
+        ORDER BY links.created_at DESC
     `;
 
     db.query(sql, [searchValue, searchValue, searchValue, searchValue], (err, result) => {
         if (err) {
-            return res.status(500).json(err);
+            return res.status(500).json({message:'Database error',error:err.message});
         }
-        res.json(result);
+        res.json(result || []);
     });
 });
 
@@ -166,19 +184,24 @@ router.get('/stats/types', verifyToken, (req, res) => {
 // =====================
 
 router.get('/:id', verifyToken, (req, res) => {
-const id = req.params.id;
-const sql = `
-    SELECT
-        links.*,
-        users.username
-    FROM links
-    JOIN users ON links.created_by = users.id
-    WHERE links.id = ?
-`;
+    const id = req.params.id;
+
+    if(!id || isNaN(id)){
+        return res.status(400).json({message:'Invalid link ID'});
+    }
+
+    const sql = `
+        SELECT
+            links.*,
+            users.username
+        FROM links
+        JOIN users ON links.created_by = users.id
+        WHERE links.id = ?
+    `;
 
     db.query(sql, [id], (err, result) => {
         if (err) {
-            return res.status(500).json(err);
+            return res.status(500).json({message:'Database error',error:err.message});
         }
         if (result.length === 0) {
             return res.status(404).json({ message: 'Link Not Found' });
@@ -200,18 +223,34 @@ router.put('/:id', verifyToken, (req, res) => {
     const id = req.params.id;
     const { title, description, url, type, tags } = req.body;
 
+    // Validation
+    if(!id || isNaN(id)){
+        return res.status(400).json({message:'Invalid link ID'});
+    }
+
+    if(!title || !url){
+        return res.status(400).json({message:'Title and URL are required'});
+    }
+
+    if(title.length < 3){
+        return res.status(400).json({message:'Title must be at least 3 characters'});
+    }
+
     const sql = `
         UPDATE links
         SET title = ?, description = ?, url = ?, type = ?, tags = ?
         WHERE id = ?
     `;
 
-    db.query(sql, [title, description, url, type, tags, id], (err, result) => {
+    db.query(sql, [title, description || '', url, type || 'General', tags || '', id], (err, result) => {
         if (err) {
-            return res.status(500).json(err);
+            return res.status(500).json({message:'Database error',error:err.message});
+        }
+        if(result.affectedRows === 0){
+            return res.status(404).json({message:'Link not found'});
         }
         addLog(req.user.id, 'UPDATE_LINK', id, `Updated link: ${title}`);
-        res.json({ message: 'Link Updated' });
+        res.json({ message: 'Link Updated Successfully' });
     });
 });
 
@@ -226,14 +265,23 @@ router.delete('/:id', verifyToken, (req, res) => {
     }
 
     const id = req.params.id;
+
+    // Validation
+    if(!id || isNaN(id)){
+        return res.status(400).json({message:'Invalid link ID'});
+    }
+
     const sql = 'DELETE FROM links WHERE id = ?';
 
     db.query(sql, [id], (err, result) => {
         if (err) {
-            return res.status(500).json(err);
+            return res.status(500).json({message:'Database error',error:err.message});
+        }
+        if(result.affectedRows === 0){
+            return res.status(404).json({message:'Link not found'});
         }
         addLog(req.user.id, 'DELETE_LINK', id, 'Deleted a link');
-        res.json({ message: 'Link Deleted' });
+        res.json({ message: 'Link Deleted Successfully' });
     });
 });
 

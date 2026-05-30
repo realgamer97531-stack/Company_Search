@@ -9,7 +9,7 @@ if(
     role !== 'editor'
 ){
 
-    alert('Access Denied');
+    alert('Access Denied - Only admins and editors can add links');
 
     window.location.href='/';
 
@@ -28,70 +28,100 @@ async function(e){
     const title =
     document.getElementById(
     'title'
-    ).value;
+    ).value.trim();
 
     const description =
     document.getElementById(
     'description'
-    ).value;
+    ).value.trim();
 
     const url =
     document.getElementById(
     'url'
-    ).value;
+    ).value.trim();
 
     const thumbnail_url =
     document.getElementById(
     'thumbnail'
-    ).value;
+    ).value.trim();
 
     const type =
     document.getElementById(
     'type'
-    ).value;
+    ).value.trim();
 
     const tags =
     document.getElementById(
     'tags'
-    ).value;
+    ).value.trim();
 
-    const response =
-    await fetch(
+    // Validation
+    if(!title){
+        alert('Title is required');
+        return;
+    }
 
-    'https://company-search-production-74f6.up.railway.app//api/links/add',
+    if(title.length < 3){
+        alert('Title must be at least 3 characters');
+        return;
+    }
 
-    {
+    if(!url){
+        alert('URL is required');
+        return;
+    }
 
-        method:'POST',
+    if(!url.match(/^https?:\/\/.+/)){
+        alert('Please enter a valid URL (starting with http:// or https://)');
+        return;
+    }
 
-        headers:{
+    try{
+        const response =
+        await fetch(
 
-            'Content-Type':
-            'application/json',
+        'https://company-search-production-74f6.up.railway.app/api/links/add',
 
-            Authorization:
-            token
+        {
 
-        },
+            method:'POST',
 
-        body:JSON.stringify({
+            headers:{
 
-            title,
-            description,
-            url,
-            thumbnail_url,
-            type,
-            tags
+                'Content-Type':
+                'application/json',
 
-        })
+                Authorization:
+                token
 
-    });
+            },
 
-    const data =
-    await response.json();
+            body:JSON.stringify({
 
-    alert(data.message);
+                title,
+                description,
+                url,
+                thumbnail_url,
+                type,
+                tags
 
-    window.location.href='/';
+            })
+
+        });
+
+        const data =
+        await response.json();
+
+        if(!response.ok){
+            alert(data.message || 'Failed to add link');
+            return;
+        }
+
+        alert(data.message || 'Link added successfully');
+
+        window.location.href='/';
+    }catch(error){
+        alert('Connection error: ' + error.message);
+    }
 
 });

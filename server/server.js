@@ -5,7 +5,7 @@ const app = express();
 
 app.use(cors({
     origin: [
-        'https://company-search-eta-indol.vercel.app'
+        'https://company-search-production-74f6.up.railway.app/'
     ],
     methods: ['GET','POST','PUT','DELETE'],
     allowedHeaders: ['Content-Type','Authorization']

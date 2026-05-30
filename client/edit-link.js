@@ -50,7 +50,7 @@ async function loadLink(){
     const response =
     await fetch(
 
-    'https://company-search-production.up.railway.app/api/links',
+    'https://company-search-production-74f6.up.railway.app/api/links',
 
     {
 
@@ -111,7 +111,7 @@ async function(e){
     const response =
     await fetch(
 
-    `https://company-search-production.up.railway.app/api/links/${id}`,
+    `https://company-search-production-74f6.up.railway.app/api/links/${id}`,
 
     {
 

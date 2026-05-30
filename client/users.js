@@ -27,7 +27,7 @@ async function loadUsers(){
     const response =
     await fetch(
 
-    'https://company-search-production.up.railway.app/api/auth/users',
+    'https://company-search-production-74f6.up.railway.app/api/auth/users',
 
     {
 
@@ -108,7 +108,7 @@ async function(e){
     const response =
     await fetch(
 
-    'https://company-search-production.up.railway.app/api/auth/add-user',
+    'https://company-search-production-74f6.up.railway.app/api/auth/add-user',
 
     {
 

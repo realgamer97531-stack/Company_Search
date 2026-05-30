@@ -8,7 +8,7 @@ async function loadStats(){
     const response =
     await fetch(
 
-    'https://company-search-production.up.railway.app/api/links/stats/all',
+    'https://company-search-production-74f6.up.railway.app/api/links/stats/all',
 
     {
 
@@ -45,7 +45,7 @@ async function loadChart(){
     const response =
     await fetch(
 
-    'https://company-search-production.up.railway.app/api/links/stats/types',
+    'https://company-search-production-74f6.up.railway.app/api/links/stats/types',
 
     {
 

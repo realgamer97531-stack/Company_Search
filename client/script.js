@@ -1,5 +1,5 @@
 const API_URL =
-'http://localhost:3000/api/links';
+'https://company-search-production.up.railway.app/api/links';
 const typeColors = {};
 const colors = [
 
@@ -384,7 +384,7 @@ async function(){
     const response =
     await fetch(
 
-    `http://localhost:3000/api/links/search/${value}`,
+    `https://company-search-production.up.railway.app/api/links/search/${value}`,
 
     {
 
@@ -435,7 +435,7 @@ async function deleteLink(id){
     const response =
     await fetch(
 
-    `http://localhost:3000/api/links/${id}`,
+    `https://company-search-production.up.railway.app/api/links/${id}`,
 
     {
 
@@ -479,7 +479,7 @@ async function editLink(id){
     const response =
     await fetch(
 
-    `http://localhost:3000/api/links/${id}`,
+    `https://company-search-production.up.railway.app/api/links/${id}`,
 
     {
 

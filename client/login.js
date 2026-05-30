@@ -21,7 +21,7 @@ async function(e){
 
     const response = await fetch(
 
-    'http://localhost:3000/api/auth/login',
+    'https://company-search-production.up.railway.app/api/auth/login',
 
     {
 

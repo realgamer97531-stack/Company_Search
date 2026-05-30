@@ -58,7 +58,7 @@ async function(e){
     const response =
     await fetch(
 
-    'http://localhost:3000/api/links/add',
+    'https://company-search-production-74f6.up.railway.app//api/links/add',
 
     {
 

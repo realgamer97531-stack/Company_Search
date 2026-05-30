@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+    content="width=device-width, initial-scale=1.0">
+
+    <title>Company Search</title>
+
+    <link rel="stylesheet"
+    href="style.css">
+
+    <link rel="preconnect"
+    href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin>
+
+    <link href=
+    "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- TOP -->
+
+    <div class="top-bar">
+
+        <div>
+
+            <h1>
+
+                Company Search
+
+            </h1>
+
+            <h2 id="welcomeText">
+
+            </h2>
+
+        </div>
+
+        <div class="top-actions">
+
+            <button
+            id="addBtn"
+
+            class="top-btn"
+
+            onclick="
+            window.location.href=
+            '/add-link.html'
+            ">
+
+            Add Link
+
+            </button>
+
+            <button
+            id="statsBtn"
+
+            class="top-btn"
+
+            onclick="
+            window.location.href=
+            '/stats.html'
+            ">
+
+            Stats
+
+            </button>
+
+            <button
+            id="usersBtn"
+
+            class="top-btn"
+
+            onclick="
+            window.location.href=
+            '/users.html'
+            ">
+
+            Users
+
+            </button>
+
+            <button
+            onclick="logout()"
+
+            class="top-btn logout">
+
+            Logout
+
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- LAYOUT -->
+
+    <div class="layout">
+
+        <!-- SIDEBAR -->
+
+        <div class="sidebar">
+
+            <h3>
+
+                Filters
+
+            </h3>
+
+            <input
+            type="text"
+
+            id="tagFilter"
+
+            placeholder="Filter By Tag">
+
+            <div id="filtersContainer">
+
+            </div>
+
+        </div>
+
+
+        <!-- CONTENT -->
+
+        <div class="content-area">
+
+            <!-- SEARCH -->
+
+            <div class="search-row">
+
+                <input
+                type="text"
+
+                id="searchInput"
+
+                placeholder=
+                "Search anything...">
+
+
+                <select id="sortSelect">
+
+                    <option value="newest">
+
+                        Newest
+
+                    </option>
+
+                    <option value="oldest">
+
+                        Oldest
+
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- LINKS -->
+
+            <div
+            id="linksContainer"
+
+            class="links-grid">
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<div id="toast"></div>
+
+
+<script src=
+"https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js">
+</script>
+
+<script src="script.js"></script>
+
+</body>
+
+</html>

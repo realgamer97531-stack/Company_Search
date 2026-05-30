@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Users</title>
+
+<link rel="stylesheet"
+href="style.css">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="top-bar">
+
+        <h1>Users Management</h1>
+
+        <button
+        class="top-btn"
+
+        onclick="
+        window.location.href='/'
+        ">
+
+        Back
+
+        </button>
+
+    </div>
+
+
+    <form id="userForm"
+    class="link-form">
+
+        <input
+        type="text"
+        id="username"
+        placeholder="Username"
+        required>
+
+        <input
+        type="password"
+        id="password"
+        placeholder="Password"
+        required>
+
+        <select id="role">
+
+            <option value="viewer">
+
+                Viewer
+
+            </option>
+
+            <option value="editor">
+
+                Editor
+
+            </option>
+
+            <option value="admin">
+
+                Admin
+
+            </option>
+
+        </select>
+
+        <button type="submit">
+
+            Add User
+
+        </button>
+
+    </form>
+
+
+    <div id="usersContainer"
+    class="links-grid">
+
+    </div>
+
+</div>
+
+<script src="users.js"></script>
+
+</body>
+
+</html>

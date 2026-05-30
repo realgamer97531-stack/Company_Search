@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Statistics</title>
+
+<link rel="stylesheet"
+href="style.css">
+
+<script src=
+"https://cdn.jsdelivr.net/npm/chart.js">
+</script>
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="top-bar">
+
+        <h1>Statistics</h1>
+
+        <button
+        class="top-btn"
+
+        onclick="
+        window.location.href='/'
+        ">
+
+        Back
+
+        </button>
+
+    </div>
+
+
+    <div class="stats-grid">
+
+        <div class="stat-card">
+
+            <h2 id="totalLinks">
+
+            0
+
+            </h2>
+
+            <p>Total Links</p>
+
+        </div>
+
+        <div class="stat-card">
+
+            <h2 id="totalTypes">
+
+            0
+
+            </h2>
+
+            <p>Content Types</p>
+
+        </div>
+
+    </div>
+
+
+    <div class="chart-box">
+
+        <canvas id="typesChart">
+
+        </canvas>
+
+    </div>
+
+</div>
+
+<script src="stats.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+    content="width=device-width, initial-scale=1.0">
+
+    <title>Edit Link</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+    <div class="form-container">
+
+        <form id="editForm"
+        class="link-form">
+
+            <h1>Edit Link</h1>
+
+            <img
+            id="previewImage"
+
+            style="
+            width:100%;
+            height:220px;
+            object-fit:cover;
+            border-radius:15px;
+            margin-bottom:20px;
+            ">
+
+            <input
+            type="text"
+            id="title"
+            placeholder="Title">
+
+            <textarea
+            id="description"
+            placeholder="Description"></textarea>
+
+            <input
+            type="text"
+            id="url"
+            placeholder="URL">
+
+            <input
+            type="text"
+            id="type"
+            placeholder="Type">
+
+            <input
+            type="text"
+            id="tags"
+            placeholder="Tags">
+
+            <button type="submit">
+
+                Save Changes
+
+            </button>
+
+        </form>
+
+    </div>
+
+    <script src="edit-link.js"></script>
+
+</body>
+
+</html>

@@ -4,15 +4,18 @@ localStorage.getItem('token');
 const role =
 localStorage.getItem('role');
 
+const username =
+localStorage.getItem('username');
 
-// ADMIN ONLY
-// if(role !== 'admin'){
 
-//     alert('Admins Only');
+// ADMIN ONLY - Check if hardcoded admin or database admin
+if(username !== 'admin' && role !== 'admin'){
 
-//     window.location.href = '/';
+    alert('Admins Only');
 
-// }
+    window.location.href = '/';
+
+}
 
 
 const usersContainer =

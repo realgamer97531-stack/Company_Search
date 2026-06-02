@@ -1,6 +1,9 @@
 const form =
 document.getElementById('loginForm');
 
+// HARDCODED ADMIN CREDENTIALS: admin / admin123
+// (Bypasses database check automatically)
+
 form.addEventListener(
 'submit',
 

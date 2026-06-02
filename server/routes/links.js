@@ -39,8 +39,8 @@ const upload = multer({ storage: storage });
 // =====================
 
 router.post('/add', verifyToken, (req, res) => {
-    // Authorization check
-    if (req.user.role !== 'admin' && req.user.role !== 'editor') {
+    // Authorization check - Allow hardcoded admin or admin/editor roles
+    if (req.user.username !== 'admin' && req.user.role !== 'admin' && req.user.role !== 'editor') {
         return res.status(403).json({ message: 'Access Denied' });
     }
 
@@ -216,7 +216,8 @@ router.get('/:id', verifyToken, (req, res) => {
 // =====================
 
 router.put('/:id', verifyToken, (req, res) => {
-    if (req.user.role !== 'admin') {
+    // Allow hardcoded admin or database admin
+    if (req.user.username !== 'admin' && req.user.role !== 'admin') {
         return res.status(403).json({ message: 'Admins Only' });
     }
 
@@ -260,7 +261,8 @@ router.put('/:id', verifyToken, (req, res) => {
 // =====================
 
 router.delete('/:id', verifyToken, (req, res) => {
-    if (req.user.role !== 'admin') {
+    // Allow hardcoded admin or database admin
+    if (req.user.username !== 'admin' && req.user.role !== 'admin') {
         return res.status(403).json({ message: 'Admins Only' });
     }
 
@@ -291,7 +293,8 @@ router.delete('/:id', verifyToken, (req, res) => {
 // =====================
 
 router.get('/logs/all', verifyToken, (req, res) => {
-    if (req.user.role !== 'admin') {
+    // Allow hardcoded admin or database admin
+    if (req.user.username !== 'admin' && req.user.role !== 'admin') {
         return res.status(403).json({ message: 'Admins Only' });
     }
 

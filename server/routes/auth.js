@@ -65,12 +65,16 @@ verifyToken,
 
 async (req,res)=>{
 
-    // ADMIN ONLY
-    // if(req.user.role !== 'admin'){
-    //     return res.status(403).json({
-    //         message:'Admins Only'
-    //     });
-    // }
+    // ADMIN ONLY - Check if hardcoded admin or database admin
+    if(req.user.username !== 'admin' && req.user.role !== 'admin'){
+
+        return res.status(403).json({
+
+            message:'Admins Only'
+
+        });
+
+    }
 
     const {
 
@@ -158,6 +162,8 @@ async (req,res)=>{
 
 // GET USERS
 
+// GET USERS
+
 router.get(
 
 '/users',
@@ -166,11 +172,16 @@ verifyToken,
 
 (req,res)=>{
 
-    // if(req.user.role !== 'admin'){
-    //     return res.status(403).json({
-    //         message:'Admins Only'
-    //     });
-    // }
+    // ADMIN ONLY - Check if hardcoded admin or database admin
+    if(req.user.username !== 'admin' && req.user.role !== 'admin'){
+
+        return res.status(403).json({
+
+            message:'Admins Only'
+
+        });
+
+    }
 
     const sql = `
 
@@ -211,6 +222,25 @@ router.post('/login',(req,res)=>{
     // Validation
     if(!username || !password){
         return res.status(400).json({message:'Username and password required'});
+    }
+
+    // HARDCODED ADMIN CHECK
+    if(username === 'admin' && password === 'admin123'){
+        try{
+            const token = jwt.sign({
+                id:999,
+                role:'admin',
+                username:'admin'
+            },SECRET,{expiresIn:'7d'});
+
+            return res.json({
+                token,
+                role:'admin',
+                username:'admin'
+            });
+        }catch(error){
+            return res.status(500).json({message:'Token generation failed',error:error.message});
+        }
     }
 
     const sql = `

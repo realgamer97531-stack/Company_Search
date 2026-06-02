@@ -6,13 +6,13 @@ localStorage.getItem('role');
 
 
 // ADMIN ONLY
-if(role !== 'admin'){
+// if(role !== 'admin'){
 
-    alert('Admins Only');
+//     alert('Admins Only');
 
-    window.location.href = '/';
+//     window.location.href = '/';
 
-}
+// }
 
 
 const usersContainer =

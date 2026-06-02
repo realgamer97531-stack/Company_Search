@@ -24,52 +24,61 @@ document.getElementById(
 // LOAD USERS
 async function loadUsers(){
 
-    const response =
-    await fetch(
+    try{
+        const response =
+        await fetch(
 
-    'https://company-search-production-74f6.up.railway.app/api/auth/users',
+        'https://company-search-production-74f6.up.railway.app/api/auth/users',
 
-    {
+        {
 
-        headers:{
-            Authorization:token
+            headers:{
+                Authorization:token
+            }
+
+        });
+
+        if(!response.ok){
+            throw new Error(`HTTP ${response.status}`);
         }
 
-    });
+        const data =
+        await response.json();
 
-    const data =
-    await response.json();
+        usersContainer.innerHTML = '';
 
-    usersContainer.innerHTML = '';
+        data.forEach(user => {
 
-    data.forEach(user => {
+            usersContainer.innerHTML += `
 
-        usersContainer.innerHTML += `
+            <div class="card">
 
-        <div class="card">
+                <div class="card-content">
 
-            <div class="card-content">
+                    <h2>
 
-                <h2>
+                    ${user.username}
 
-                ${user.username}
+                    </h2>
 
-                </h2>
+                    <p>
 
-                <p>
+                    Role:
+                    ${user.role}
 
-                Role:
-                ${user.role}
+                    </p>
 
-                </p>
+                </div>
 
             </div>
 
-        </div>
+            `;
 
-        `;
-
-    });
+        });
+    }catch(error){
+        usersContainer.innerHTML = '<p style="color:red;">Error loading users: ' + error.message + '</p>';
+        console.error('Load users error:', error);
+    }
 
 }
 
@@ -92,54 +101,68 @@ async function(e){
     const username =
     document.getElementById(
     'username'
-    ).value;
+    ).value.trim();
 
     const password =
     document.getElementById(
     'password'
-    ).value;
+    ).value.trim();
 
     const role =
     document.getElementById(
     'role'
     ).value;
 
+    // Validation
+    if(!username || !password){
+        alert('Username and password are required');
+        return;
+    }
 
-    const response =
-    await fetch(
+    try{
+        const response =
+        await fetch(
 
-    'https://company-search-production-74f6.up.railway.app/api/auth/add-user',
+        'https://company-search-production-74f6.up.railway.app/api/auth/add-user',
 
-    {
+        {
 
-        method:'POST',
+            method:'POST',
 
-        headers:{
+            headers:{
 
-            'Content-Type':
-            'application/json',
+                'Content-Type':
+                'application/json',
 
-            Authorization:token
+                Authorization:token
 
-        },
+            },
 
-        body:JSON.stringify({
+            body:JSON.stringify({
 
-            username,
-            password,
-            role
+                username,
+                password,
+                role
 
-        })
+            })
 
-    });
+        });
 
-    const data =
-    await response.json();
+        if(!response.ok){
+            throw new Error(`HTTP ${response.status}`);
+        }
 
-    alert(data.message);
+        const data =
+        await response.json();
 
-    form.reset();
+        alert(data.message);
 
-    loadUsers();
+        form.reset();
+
+        loadUsers();
+    }catch(error){
+        alert('Error adding user: ' + error.message);
+        console.error('Add user error:', error);
+    }
 
 });

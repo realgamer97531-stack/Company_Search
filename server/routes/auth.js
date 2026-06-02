@@ -67,13 +67,9 @@ async (req,res)=>{
 
     // ADMIN ONLY
     // if(req.user.role !== 'admin'){
-
     //     return res.status(403).json({
-
     //         message:'Admins Only'
-
     //     });
-
     // }
 
     const {
@@ -170,15 +166,11 @@ verifyToken,
 
 (req,res)=>{
 
-    if(req.user.role !== 'admin'){
-
-        return res.status(403).json({
-
-            message:'Admins Only'
-
-        });
-
-    }
+    // if(req.user.role !== 'admin'){
+    //     return res.status(403).json({
+    //         message:'Admins Only'
+    //     });
+    // }
 
     const sql = `
 

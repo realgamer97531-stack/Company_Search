@@ -1,35 +1,41 @@
 {
   "version": 2,
-  "builds": [
+  "rewrites": [
     {
-      "src": "server/server.js",
-      "use": "@vercel/node"
+      "source": "/",
+      "destination": "/client/index.html"
     },
     {
-      "src": "client/**",
-      "use": "@vercel/static"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "/server/server.js"
+      "source": "/login.html",
+      "destination": "/client/login.html"
     },
     {
-      "src": "/uploads/(.*)",
-      "dest": "/client/uploads/$1"
+      "source": "/add-link.html",
+      "destination": "/client/add-link.html"
     },
     {
-      "src": "/(.*\\.(js|css|html|png|jpg|jpeg|gif|svg|ico|webp))",
-      "dest": "/client/$1"
+      "source": "/edit-link.html",
+      "destination": "/client/edit-link.html"
     },
     {
-      "src": "/",
-      "dest": "/client/index.html"
+      "source": "/stats.html",
+      "destination": "/client/stats.html"
     },
     {
-      "src": "/(.*)",
-      "dest": "/client/$1"
+      "source": "/users.html",
+      "destination": "/client/users.html"
+    },
+    {
+      "source": "/dashboard.html",
+      "destination": "/client/dashboard.html"
+    },
+    {
+      "source": "/uploads/:path*",
+      "destination": "/client/uploads/:path*"
+    },
+    {
+      "source": "/:file((?:[^/]+)\\.(?:js|css|png|jpg|jpeg|gif|svg|ico|webp))",
+      "destination": "/client/:file"
     }
   ]
 }

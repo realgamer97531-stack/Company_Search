@@ -49,8 +49,15 @@ async function(e){
 
         });
 
+        const contentType =
+        response.headers.get('content-type') || '';
+
         const data =
-        await response.json();
+        contentType.includes('application/json')
+        ? await response.json()
+        : {
+            message:`Server returned ${response.status}. API route is not configured correctly.`
+        };
 
         if(!response.ok){
             alert(data.message || 'Login failed');

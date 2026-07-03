@@ -83,11 +83,11 @@ router.get('/', verifyToken, (req, res) => {
     const sql = `SELECT
 
 links.*,
-users.username
+COALESCE(users.username,'admin') AS username
 
 FROM links
 
-JOIN users
+LEFT JOIN users
 
 ON links.created_by = users.id
 
@@ -95,7 +95,11 @@ ORDER BY links.created_at DESC`;
 
     db.query(sql, (err, result) => {
         if (err) {
-            return res.status(500).json({message:'Database error',error:err.message});
+            console.error('Get links database error:', err.message);
+            return res.status(500).json({
+                message:'Database error while loading links',
+                error:err.message
+            });
         }
         res.json(result || []);
     });
@@ -119,11 +123,11 @@ router.get('/search/:text', verifyToken, (req, res) => {
         SELECT
 
 links.*,
-users.username
+COALESCE(users.username,'admin') AS username
 
 FROM links
 
-JOIN users
+LEFT JOIN users
 
 ON links.created_by = users.id
         WHERE title LIKE ? OR description LIKE ? OR tags LIKE ? OR type LIKE ?
@@ -193,9 +197,9 @@ router.get('/:id', verifyToken, (req, res) => {
     const sql = `
         SELECT
             links.*,
-            users.username
+            COALESCE(users.username,'admin') AS username
         FROM links
-        JOIN users ON links.created_by = users.id
+        LEFT JOIN users ON links.created_by = users.id
         WHERE links.id = ?
     `;
 

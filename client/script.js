@@ -157,6 +157,7 @@ function getTypeColor(type){
 }
 async function getLinks(){
 
+    try{
     const response = await fetch(API_URL,{
 
         headers:{
@@ -166,14 +167,35 @@ async function getLinks(){
     });
 
     const data = await response.json();
+
+    if(!response.ok){
+        throw new Error(data.message || data.error || `HTTP ${response.status}`);
+    }
+
+    if(!Array.isArray(data)){
+        throw new Error('Invalid links response');
+    }
+
     allLinks = data;
     generateFilters(data);
     displayLinks(data);
+    }catch(error){
+        linksContainer.innerHTML =
+        `<p style="color:red;">Error loading links: ${error.message}</p>`;
+
+        filtersContainer.innerHTML = '';
+
+        console.error('Load links error:', error);
+    }
 
 }
 
 
 function displayLinks(links){
+
+    if(!Array.isArray(links)){
+        links = [];
+    }
 
     linksContainer.innerHTML = '';
 
@@ -553,6 +575,9 @@ function filterType(type){
 }
 
 function generateFilters(links){
+    if(!Array.isArray(links)){
+        links = [];
+    }
 
     // استخراج الأنواع بدون تكرار
     const types = [

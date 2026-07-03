@@ -6,7 +6,10 @@ const jwt = require('jsonwebtoken');
 
 const db = require('../db');
 
-const SECRET = "SUPER_SECRET_KEY";
+const SECRET =
+process.env.JWT_SECRET ||
+process.env.SUPER_SECRET_KEY ||
+"SUPER_SECRET_KEY";
 
 const verifyToken =
 require('../middleware/authMiddleware');

@@ -80,7 +80,7 @@ async function(e){
         const response =
         await fetch(
 
-        'https://company-search-production-74f6.up.railway.app/api/links/add',
+        '/api/links/add',
 
         {
 

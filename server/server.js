@@ -8,7 +8,9 @@ const app = express();
 app.use(cors({
     origin: [
         'https://company-search-production-74f6.up.railway.app',
-        'http://localhost:3000'
+        'http://localhost:3000',
+        'https://studyisfunny.online', 
+
     ],
     methods: ['GET','POST','PUT','DELETE'],
     allowedHeaders: ['Content-Type','Authorization']
